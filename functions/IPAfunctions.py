@@ -1,7 +1,6 @@
 from itertools import product
 import numpy as np
 import functions.IPAscoring as IPAscoring
-import functions.RecursivePartitioningFunctions as RP
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import warnings
 from scipy.spatial.distance import hamming
@@ -62,7 +61,7 @@ def calculate_PMIij(Ai, Bj, AAs = None, method = None, L=0.15, weights = None):
 
     if AAs == None:
         AAs = list("ARNDCEQGHILKMFPSTWYV-")
-    assert method in [None, 'RP'], 'Method must be one of [None, RP]'
+    assert method in [None], 'Method must be one of [None]'
 
     assert len(Ai) == len(Bj) # each will be paired, so this should be true
     X = np.stack([np.array(Ai), np.array(Bj)]).T
@@ -71,16 +70,6 @@ def calculate_PMIij(Ai, Bj, AAs = None, method = None, L=0.15, weights = None):
         fis = pseudocounter_single(Ai, L = L, q = len(AAs), AAs = AAs, weights=weights)
         fjs = pseudocounter_single(Bj, L = L, q = len(AAs), AAs = AAs, weights=weights)
         fijs = pseudocounter_double(X, L = L, q = len(AAs), AAs = AAs, weights=weights)
-    elif method == 'RP':
-        fijs, fis, fjs = RP.CoincidenceArrayForPositionPair(Ai, Bj, setSize=len(Ai), AAs = AAs)
-        q = len(AAs)
-        k = L/q
-        k1 = 1-L
-        fis = k + k1*fis
-        fjs = k + k1*fjs
-        k = L/q**2
-        k1 = 1-L
-        fijs = k + k1*fijs
 
     exp = np.dot(fis[:,None],fjs[None,:])
     PMIij = np.log(fijs) - np.log(exp)
@@ -125,7 +114,7 @@ def calculate_PMI_AllPositions(A, B, AAs = None, method = None, L=0.15, weights 
     return PMI 
 
 def _PMI_calculation(A, B, i, j, AAs=None, L=0.15, method = None, weights = None):
-    assert method in [None, 'RP'], 'Method must be one of [None, RP]'
+    assert method in [None], 'Method must be one of [None]'
     if AAs == None:
         AAs = list("ARNDCEQGHILKMFPSTWYV-")
     Ai = A[:,i]
@@ -137,16 +126,6 @@ def _PMI_calculation(A, B, i, j, AAs=None, L=0.15, method = None, weights = None
         fijs = pseudocounter_double(X, L = L, q = len(AAs), AAs = AAs, weights=weights)
         fis = pseudocounter_single(Ai, L = L, q = len(AAs), AAs = AAs, weights=weights)
         fjs = pseudocounter_single(Bj, L = L, q = len(AAs), AAs = AAs, weights=weights)
-    elif method == 'RP':
-        fijs, fis, fjs = RP.CoincidenceArrayForPositionPair(Ai, Bj, setSize=Ai.shape[0], AAs = AAs)
-        q = len(AAs)
-        k = L/q
-        k1 = 1-L
-        fis = k + k1*fis
-        fjs = k + k1*fjs
-        k = L/q**2
-        k1 = 1-L
-        fijs = k + k1*fijs
 
     exp = np.dot(fis[:,None],fjs[None,:])
     assert fijs.shape == exp.shape

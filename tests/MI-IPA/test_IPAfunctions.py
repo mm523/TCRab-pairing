@@ -96,35 +96,6 @@ class TestCoreFunctions:
         np.testing.assert_almost_equal(PMIij[AAdict["F"], AAdict["A"]], np.log(pcAB[AAdict["F"], AAdict["A"]]/(pcA[AAdict["F"]]*pcB[AAdict["A"]])))
         np.testing.assert_almost_equal(PMIij[AAdict["F"], AAdict["F"]], np.log(pcAB[AAdict["F"], AAdict["F"]]/(pcA[AAdict["F"]]*pcB[AAdict["F"]])))
 
-    def test_PMIij_RP(self):
-        A = np.array(list("MARTINAA"))
-        B = np.array(list("ARIANNAA"))
-        AAs = list("ARNDCEQGHILKMFPSTWYV-")
-        AAdict = dict(zip(AAs, range(len(AAs)))) 
-
-        PMIij = ipa.calculate_PMIij(A, B, method='RP', L = 0)
-        # print(PMIij)
-
-        # please note this behaviour: all goes to 0 because happens as frequently as expected
-        assert PMIij[AAdict["M"], AAdict["A"]].round(14) == 0.
-        assert PMIij[AAdict["A"], AAdict["A"]].round(14) == 0.
-        assert PMIij[AAdict["F"], AAdict["A"]].round(14) == 0.
-        assert PMIij[AAdict["F"], AAdict["F"]].round(14) == 0.
-
-        A = np.array(list("MARTINAMAAAAAAM"))
-        B = np.array(list("ARIANNAAAAAAAAA"))
-        AAs = list("ARNDCEQGHILKMFPSTWYV-")
-        AAdict = dict(zip(AAs, range(len(AAs)))) 
-
-        PMIij = ipa.calculate_PMIij(A, B, method='RP', L = 0)
-        # print(PMIij)
-
-        assert PMIij[AAdict["M"], AAdict["A"]].round(14) == round(0.38659662380378124,14)
-        assert PMIij[AAdict["A"], AAdict["A"]].round(14) == round(0.25306523117925883,14)
-        assert PMIij[AAdict["F"], AAdict["A"]].round(14) == round(-2.6579258139196407,14)
-        assert PMIij[AAdict["F"], AAdict["F"]].round(14) == round(1.0886619578149421,14)
-
-
     def test_PMI(self):
         s = time.time()
         vdj = pd.read_csv("data/vdj_cleaned_subset_for_MI.csv", index_col=0).head()
