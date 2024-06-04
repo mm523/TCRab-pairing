@@ -6,3 +6,9 @@ figures
 data/structures/structures_from_pdb
 data/structures/stcrdab_all_structures/imgt
 data/structures/stcrdab_all_structures/raw
+data/output/mutual_info/
+data/output/pairing_GA/
+data/output/pairing_GAMI/
+data/output/pairing_MIIPA/
+data/output/pairwise_distances/
+.DS_Store
