@@ -6,7 +6,7 @@ from itertools import product
 from scipy.optimize import minimize
 import pandas as pd
 
-'''Recursive partitioning is implemented on the basis of ADD_REF. Legacy trial that was not included in final publication.'''
+'''Recursive partitioning is implemented as in Seok and Kang, Sci Rep, 2015 (https://www.nature.com/articles/srep10981). Legacy code, not included in final models for publication.'''
 
 def _calculate_coincidence(X, mytuple):
         aa1, aa2 = mytuple
