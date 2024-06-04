@@ -3,3 +3,6 @@ __pycache__
 .coverage
 .pytest_cache
 figures
+data/structures/structures_from_pdb
+data/structures/stcrdab_all_structures/imgt
+data/structures/stcrdab_all_structures/raw
