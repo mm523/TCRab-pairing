@@ -177,7 +177,7 @@ def get_inputs(myargs: Sequence[str] | None = None):
         assert (0<weights) & (weights<1), 'weights needs to be either no or a float between 0 and 1'
 
     method = argv['MI_method']
-    assert method in ['RP', 'None']
+    assert method in ['None']
     if method == 'None':
         method = None
     
