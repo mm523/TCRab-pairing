@@ -291,6 +291,9 @@ class TestGAtoMI:
             ['b3','b2','b2','b2','b3', 'a2', 'b2', 2, 'b2', 3, True],
             ['b2','b3','b3','b3','b2', 'a3', 'b3', 2, 'b3', 2, True],
             ['b1','b0','b4','b1','b1', 'a4', 'b4', 1, 'b1', 3, False],
+            ['b2','b5','b1','b3','b2', 'a5', 'b5', 2, 'b5', 2, True],
+            ['b7','b5','b0','b1','b2', 'a6', 'b6', 1, 'b6', 2, True],
+            ['b7','b5','b0','b1','b2', 'a7', 'b7', 1, 'b7', 2, True],
         ]), columns=['repeat1', 'repeat2', 'repeat3', 'repeat4', 'repeat5', 'alpha', 'correct_beta', 'subject-PMID', 'mode', 'mode_freq', 'correct'])
     
         GAstable = pd.DataFrame(np.array([
@@ -299,6 +302,8 @@ class TestGAtoMI:
             ['a1', 'b1', 1, 'b4', 4, False],
             ['a2', 'b2', 2, 'b2', 3, True],
             ['a4', 'b4', 1, 'b1', 3, False],
+            ['a3', 'b3', 2, 'b3', 2, True],
+            ['a5', 'b5', 2, 'b5', 2, True],
         ]), columns=['alpha', 'correct_beta', 'subject-PMID', 'mode', 'mode_freq', 'correct'])
         GAstable['mode_freq'] = GAstable['mode_freq'].astype('int')
 

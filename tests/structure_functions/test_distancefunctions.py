@@ -8,7 +8,7 @@ import pandas as pd
 structures_dir = "test_data/tcrdb_raw/"
 structures_dir1 = "test_data/pdb/"
 structures_dir2 = "test_data/tcrdb_imgt/"
-datalist = pd.read_csv("data/2022-05-31_tcrdb_export_cleaned.csv").drop_duplicates(subset = ["pdb"], keep="first")
+datalist = pd.read_csv("data/tcrdb_export_cleaned.csv").drop_duplicates(subset = ["pdb"], keep="first")
 p = PDB.PDBParser()
 pymol.cmd.set('fetch_path', structures_dir1, quiet=0)
 
