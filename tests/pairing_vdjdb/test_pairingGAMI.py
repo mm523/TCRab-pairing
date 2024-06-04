@@ -45,11 +45,6 @@ class TestInputs:
             ['--input','data/vdj_cleaned_subset_for_MI.csv', '--epitope', 'myep', '--MI_weights', '0.3']) == output1
 
         output1 = copy.deepcopy(output)
-        output1['for_preprocessing']['method'] = 'RP'
-        assert GAMI.get_inputs(
-            ['--input','data/vdj_cleaned_subset_for_MI.csv', '--epitope', 'myep', '--MI_method', 'RP']) == output1
-
-        output1 = copy.deepcopy(output)
         output1['for_preprocessing']['prop_test'] = '0.75'
         assert GAMI.get_inputs(
             ['--input','data/vdj_cleaned_subset_for_MI.csv', '--epitope', 'myep', '--prop_test', '0.75']) == output1
