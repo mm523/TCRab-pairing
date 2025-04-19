@@ -21,15 +21,21 @@ All the data preprocessing scripts are in data_preprocessing.
 
 #### Analysis of structures
 
-1. ```interloop_contacts_4structures.ipynb``` plots the circos plots for the contacts in the 4 example structures in Fig. 1
-2. ```intrachain_pairwise_distances.ipynb``` extracts and plots all pairwise distances between residues on the same chain
-3. ```interchain_pairwise_distances.ipynb``` extracts and plots all pairwise distances between residues on different chains
+The following scripts are in ```structure_analysis```
+
+1. ```interloop_contacts_4structures.ipynb``` plots the circos plots for the contacts in the 4 example TCRs in Fig 1
+2. ```extract_all_intrachain_pairwise_distance.ipynb``` and ```extract_all_interchain_pairwise_distance.ipynb``` extract all distances between and across chains and save them to file
+3. ```intrachain_pairwise_distances.ipynb``` extracts and plots all pairwise distances between residues on the same chain
+4. ```interchain_pairwise_distances.ipynb``` extracts and plots all pairwise distances between residues on different chains
+5. ```threshold_analysis.ipynb``` shows the effect of choosing different thresholds on the number of detected contacts
+
+These scripts reproduce all analysis in Figs 1-3, S1 and S9-S11
 
 The functions needed to run these scripts are in the ```functions``` folder and are called directly within each script.
 
 #### Analysis of VDJDb clustering
 
-```cluster_alpha_beta.ipynb``` reproduces all the analysis in Figures XXX.
+```cluster_alpha_beta.ipynb``` reproduces all the analysis in Figs 4, S12-S13.
 
 #### MI calculation and analysis
 
