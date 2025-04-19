@@ -10,10 +10,14 @@ Milighetti M, Nagano Y, Henderson J, Hershberg U, Tiffeau-Mayer A, Bitbol AF, Ch
 All the data preprocessing scripts are in data_preprocessing.
 
 1. Structures:  ```clean_stcrdab_export.ipynb``` cleans up structures that I am not interested in, including edge cases. Then checks that the information I extract is what I want.
-3. vdjdb: 
+2. vdjdb: 
     1. ```preprocess_vdjdb.py``` does some initial cleaning of the export
     2. ```apply_stitchr.py``` takes the output from 1. and uses stitchr (https://github.com/JamieHeather/stitchr) to create full TCR sequences
     3. ```vdj_clean_for_MI.py``` applies the final cleaning steps and extracts cdrs for all MI applications.
+3. Tanno dataset:
+    1. ```Tanno_preprocessing.ipynb``` performs pre-processing as in Mayer and Callan, 2023
+    2. ```tanno_clean_for_MI.py``` applies the final cleaning steps and extracts cdrs for all MI applications.
+4. OTS dataset: ```OTS_preprocessing.ipynb``` selects the studies of interest and prepares data for MI calculation
 
 #### Analysis of structures
 
