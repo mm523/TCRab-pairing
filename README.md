@@ -75,3 +75,12 @@ The script ```run_GAMI_benchmark_eps.sh``` runs the grid search on epitopes GLC 
 ```run_GAMI_all_eps.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_GAMI_results/all_epitope_repeats.ipynb``` can load the results from the paring and plot the results as in Figures XXX.
 
 The notebook ```VDJ_MI-IPA_results/all_epitope_correlations.ipynb``` plots the correlations with other metrics as in Figure XXX.
+
+##### Benchmarking - TULIP and SCEPTR
+
+TULIP and SCEPTR can be run using the scripts in ```pairing_prediction_other_software```. They assume that TULIP is ```git-cloned``` in a directory outside of the ```TCRab-pairing``` directory which the code accesses directly. SCEPTR can be ```pip install``` following instructions of the package.
+
+1. The script ```make_dataset.ipynb``` creates the combinatorial pairs to be scored by TULIP. 
+2. The script ```run_tulip.ipynb``` runs the prediction with TULIP and ```analyse_TULIP_results.ipynb``` outputs the pairing results
+3. The script ```sceptr_prediction.ipynb``` runs prediction with SCEPTR and outputs the results
+4. The script ```benchmarking_summary.ipynb``` produces the figures in Fig S21
