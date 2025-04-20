@@ -54,11 +54,11 @@ The functions needed to run these scripts are in the ```functions``` folder and 
 
 The functions to run the MI-IPA on the VDJDb dataset are contained in ```PairingVDJdb_MI.py```.
 
-The script ```run_MIIPA_benchmark_eps``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks in ```VDJ_MI-IPA_results``` (```*_screen.ipynb```) can load the results from the grid search and plot the results as in Figures XXX.
+The script ```run_MIIPA_benchmark_eps``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks in ```VDJ_MI-IPA_results``` (```*_screen.ipynb```) can load the results from the grid search and plot the results as in Fig S5.
 
-```run_MIIPA_all_eps.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_MI-IPA_results/all_epitope_repeats.ipynb``` can load the results from the paring and plot the results as in Figures XXX.
+```run_MIIPA_all_eps.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_MI-IPA_results/all_epitope_repeats.ipynb``` can load the results from the paring and plot the results as in Fig S18.
 
-The notebook ```VDJ_MI-IPA_results/all_epitope_corr_with_MI.ipynb``` plots the correlations with MI as in Figure XXX.
+The notebook ```VDJ_MI-IPA_results/all_epitope_corr_with_MI.ipynb``` plots the correlations with MI as in Fig 9.
 
 ##### GA
 
@@ -68,21 +68,23 @@ The functions to run the MI-IPA on the VDJDb dataset are contained in ```Pairing
 This code is from https://github.com/carlosgandarilla/GA-IPA, published as Gandarilla-Pérez CA, Pinilla S, Bitbol AF, Weigt M. Combining phylogeny and coevolution improves the inference of interaction partners among paralogous proteins. PLoS Comput Biol. 2023 Mar 30;19(3):e1011010. doi: 10.1371/journal.pcbi.1011010. PMID: 36996234; PMCID: PMC10089317. 
 Since the original implementation is in Julia, pyjulia was used to include the code in the pipeline. To make Julia work in Python, you need to install pyjulia: https://pyjulia.readthedocs.io/en/stable/index.html. PyJulia is already included in the environment, but you might need to run step 3 of installation. To make it work in conda, you also need the first hack of the troubleshooting guide.
 
-The script ```run_GA_benchmark_eps.sh``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks ```VDJ_GA_results/Kscreen.ipynb``` can load the results from the grid search and plot the results as in Figure XXX.
+The script ```run_GA_benchmark_eps.sh``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks ```VDJ_GA_results/Kscreen.ipynb``` can load the results from the grid search and plot the results as in Fig S6.
 
-```run_GA_all_eps_lev_20.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_GA_results/repeat_results.ipynb``` can load the results from the paring and plot the results as in Figures XXX.
+```run_GA_all_eps_lev_20.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_GA_results/repeat_results.ipynb``` can load the results from the paring and plot the results as in Fig S19.
 
-The notebook ```VDJ_GA_results/GA_perf_corr.ipynb``` plots the correlations with other clustering metrics as in Figure XXX.
+The notebook ```VDJ_GA_results/GA_perf_corr.ipynb``` plots the correlations with other clustering metrics as in Fig 9.
 
 ##### GA+MI-IPA
 
 The functions to run the GA + MI-IPA on the VDJDb dataset are contained in ```PairingVDJdb_GAandMI.py```.
 
-The script ```run_GAMI_benchmark_eps.sh``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks ```VDJ_GAMI_results/GLA_YLQ_repair_over_iterations.ipynb``` can load the results from the grid search and plot the results as in Figures XXX.
+The script ```run_GAMI_benchmark_eps.sh``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks ```VDJ_GAMI_results/GLA_YLQ_repair_over_iterations.ipynb``` can load the results from the grid search and plot the results as in Fig S7.
 
-```run_GAMI_all_eps.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_GAMI_results/all_epitope_repeats.ipynb``` can load the results from the paring and plot the results as in Figures XXX.
+```run_GAMI_all_eps.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_GAMI_results/all_epitope_repeats.ipynb``` can load the results from the paring and plot the results as in Fig S20.
 
-The notebook ```VDJ_MI-IPA_results/all_epitope_correlations.ipynb``` plots the correlations with other metrics as in Figure XXX.
+The notebook ```VDJ_MI-IPA_results/all_epitope_correlations.ipynb``` plots the correlations with other metrics as in Fig 9.
+
+The summary result in Fig 8 can be generated with ```all_epitopes_pairing_GA_and_MI.ipynb```.
 
 ##### Benchmarking - TULIP and SCEPTR
 
