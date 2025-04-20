@@ -43,8 +43,10 @@ The functions needed to run these scripts are in the ```functions``` folder and 
 2. ```totalMI_tanno_oneNaiveSample.ipynb``` performs MI calculations for various subsamples from the naive sample from individual A1 from Tanno et al. Here padding for the MI calculations is added in the middle (as with IMGT numbering).
 3. ```totalMI_vdjdb_changepadding.ipynb``` and ```totalMI_tanno_oneNaiveSample_changepadding.ipynb``` perform the same calculations as above, but by padding the sequences at the end instead of padding in the middle.
 4. ```totalMI_analysis.ipynb``` performs the extrapolation with the subsamples and correction of MI by shuffle for each calculated MI category. Equivalent in ```totalMI_analysis_changepadding.ipynb``` for padding at the end.
-5. ```V_to_cdr3_MI.ipynb``` plots the heatmaps as in Figure XXX (with padding in the middle).
-6. ```totalMI_compare_padding.ipynb``` compares the MI results depending on the padding, as in Supplementary Figure XXX.
+5. ```V_to_cdr3_MI.ipynb``` plots the analyses in Figs 5-6 and S17 (with padding in the middle).
+6. ```totalMI_compare_padding.ipynb``` compares the MI results depending on the padding, as in Fig S15.
+7. ```MI_vs_gaps.ipynb``` evaluates the effects of gaps as in Fig S14
+8. ```totalMI_ots.ipynb```, ```totalMI_analysis_ots.ipynb``` and ```OTS_plot_results.ipynb``` calculate MI for OTS set and analyse the results as in Fig S16
 
 #### Pairing algorithms
 
