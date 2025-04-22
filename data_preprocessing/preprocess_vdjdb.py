@@ -2,8 +2,11 @@
 import pandas as pd
 # import matplotlib.pyplot as plt
 # from collections import Counter
+# import os
 # %%
-vdj = pd.read_csv('data/vdj-export-03022023.tsv', sep='\t')
+path1 = 'data/'
+# %%
+vdj = pd.read_csv(path1 + 'vdj-export-03022023.tsv', sep='\t')
 #%%
 print('separate alpha/beta and create complexes')
 vdja = vdj.loc[vdj.Gene=='TRA']
@@ -32,4 +35,4 @@ assert len(charac_b) <= 20
 assert sorted(list(charac_b)) == sorted(list(AAs))
 
 # %%
-ab_asone_big.to_csv('data/vdj_cleaned.csv')
+ab_asone_big.to_csv(path1 + 'vdj_cleaned.csv')

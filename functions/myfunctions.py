@@ -97,7 +97,16 @@ def calculate_entropy_of_residuals(alphas, betas): # not tested
     
     return np.array(alpha_entropy), np.array(beta_entropy)
 
-def prepare_data(epdf, col1, col2 = None, max_len1 = None, max_len2 = None, type = "cdr3"):
+def _pad(x, maxlen):
+    if len([c for c in x.split('-') if c!='']) > 2: return pd.NA
+    elif x[-1] == '-': return pd.NA
+    else:
+        if len(x.split('-')) > 1:
+            return ", ".join(list(x.split("-")[0]) + ["-"]*(maxlen - len(x.replace("-", ""))) + list(x.split("-")[-1]))
+        else:
+            return ", ".join(list(x[0:round(len(x)/2)]) + ["-"]*(maxlen - len(x)) + list(x[round(len(x)/2):]))
+
+def prepare_data(epdf, col1, col2 = None, max_len1 = None, max_len2 = None, type = "cdr3", endpadding=False):
     '''
     This function takes a dataframe and 2 columns. The columns will be identifiers for either cdr3 or for TCR sequences
     which have been IMGT-renumbered. It then works by adding padding in the middle of the cdr3 so that the sequences 
@@ -119,13 +128,16 @@ def prepare_data(epdf, col1, col2 = None, max_len1 = None, max_len2 = None, type
     assert max(epdf["len_" + col1])<=max_len1, "df max length cleaning not successful in " + col1
     
     if type == "cdr3":
-        epdf[col1 + "_padded"] = [", ".join(list(x.split("-")[0]) + ["-"]*(max_len1 - len(x.replace("-", ""))) + list(x.split("-")[-1])) if len(x.split("-")) > 1 else ", ".join(list(x[0:round(len(x)/2)]) + ["-"]*(max_len1 - len(x)) + list(x[round(len(x)/2):])) for x in epdf[col1]]
+        epdf[col1 + "_padded"] = [_pad(x, max_len1) for x in epdf[col1]]
+        if endpadding:
+            epdf[col1 + "_padded"] = [', '.join(list(x + ''.join(['-']*(19-len(x))))) for x in epdf[col1]]
     elif type == "tcr":
         # we assume TCRs can only have insertions that do not align them between positions 111 and 112
         epdf[col1 + "_padded"] = [", ".join(list(x[0:111]) + ["-"]*(max_len1 - len(x)) + list(x[111:len(x)])) for x in epdf[col1]]
     else:
         raise ValueError("type not recognised")
     
+    epdf = epdf.dropna(subset=col1 + "_padded")
     # print(epdf[col1 + "_padded"])
 
     assert len(set([len(x.split(", ")) for x in epdf[col1 + "_padded"]])) == 1, col1 + " padding did not work. More than 1 lengths still present"
@@ -148,13 +160,16 @@ def prepare_data(epdf, col1, col2 = None, max_len1 = None, max_len2 = None, type
         assert max(epdf["len_" + col2])<=max_len2, "df max length cleaning not successful in " + col1
 
         if type == "cdr3":
-            epdf[col2 + "_padded"] = [", ".join(list(x.split("-")[0]) + ["-"]*(max_len2 - len(x.replace("-", ""))) + list(x.split("-")[-1])) if len(x.split("-")) > 1 else ", ".join(list(x[0:round(len(x)/2)]) + ["-"]*(max_len2 - len(x)) + list(x[round(len(x)/2):])) for x in epdf[col2]]
+            epdf[col2 + "_padded"] = [_pad(x,max_len2) for x in epdf[col2]]
+            if endpadding:
+                epdf[col2 + "_padded"] = [', '.join(list(x + ''.join(['-']*(19-len(x))))) for x in epdf[col2]]
         elif type == "tcr":
             # we assume TCRs can only have insertions that do not align them between positions 111 and 112
             epdf[col2 + "_padded"] = [", ".join(list(x[0:111]) + ["-"]*(max_len2 - len(x)) + list(x[111:len(x)])) for x in epdf[col2]]
         else:
             raise ValueError("type not recognised")
         
+        epdf = epdf.dropna(subset=col2 + "_padded")
         assert len(set([len(x.split(", ")) for x in epdf[col2 + "_padded"]])) == 1, col2 + " padding did not work. More than 1 lengths still present"
         assert list(set([len(x.split(", ")) for x in epdf[col2 + "_padded"]]))[0] == max_len2, col2 + " padding did not work. Length is not equal to max_len2"
 
