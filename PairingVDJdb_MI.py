@@ -79,8 +79,8 @@ def get_inputs(myargs: Sequence[str] | None = None):
 
     data = Path(argv['input'])
     assert Path.exists(data.resolve()), 'file ' + argv['input'] + ' does not exist'
-    folder = Path('data/output/pairing_MI-IPA/' + argv['output'])
-    assert Path.exists(folder.resolve()), 'folder ' + 'data/output/pairing_MI-IPA/' + argv['output'] + ' does not exist'
+    folder = Path(argv['output'])
+    assert Path.exists(folder.resolve()), 'folder ' + argv['output'] + ' does not exist'
     print('Saving results to ', folder)
 
     save_train = argv['save_train'].lower()
