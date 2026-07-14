@@ -3,6 +3,14 @@ import numpy as np
 import pandas as pd
 import pytest
 
+def test_pad():
+
+    assert mf._pad("CAS---VTF", 9) == "C, A, S, -, -, -, V, T, F"
+    assert mf._pad("CAS---VTF", 10) == "C, A, S, -, -, -, -, V, T, F"
+    assert mf._pad("CAST---VTF", 13) == "C, A, S, T, -, -, -, -, -, -, V, T, F"
+    assert pd.isna(mf._pad("CAS---VTF-", 10))
+    assert pd.isna(mf._pad("CAS---VT-F", 10))
+
 def test_prepare_data():
     df =  {"cdr3a_IMGTgaps":"CAS---VTF",
             "cdr3b_IMGTgaps":"CAST---VTF"}
@@ -15,6 +23,25 @@ def test_prepare_data():
     vdj = pd.DataFrame.from_dict(df, orient = "index").T
     output = pd.DataFrame.from_dict(df1, orient = "index").T
     vdj1 = mf.prepare_data(vdj, "cdr3a_IMGTgaps", "cdr3b_IMGTgaps")
+
+    for c in output.columns:
+        print(output[c])
+        print(vdj1[c])
+
+    pd.testing.assert_frame_equal(vdj1.sort_index(axis=1), output.sort_index(axis=1), check_dtype=False)
+
+def test_prepare_data_dropouts():
+    df =  {"cdr3a_IMGTgaps":["CAS---VTF", "CAS---VTF", "CAST---VT-F"],
+            "cdr3b_IMGTgaps":["CAST---VTF", "CAST---VT-F", "CAS---VTF"],}
+    
+    df1 = {"cdr3a_IMGTgaps":"CAS---VTF", "cdr3b_IMGTgaps":"CAST---VTF", 
+            "len_cdr3a_IMGTgaps":9, "len_cdr3b_IMGTgaps":10, 
+            "cdr3a_IMGTgaps_padded":"C, A, S, -, -, -, -, V, T, F", 
+            "cdr3b_IMGTgaps_padded":"C, A, S, T, -, -, -, -, V, T, F",}    
+
+    vdj = pd.DataFrame.from_dict(df, orient = "index").T
+    output = pd.DataFrame.from_dict(df1, orient = "index").T
+    vdj1 = mf.prepare_data(vdj, "cdr3a_IMGTgaps", "cdr3b_IMGTgaps",max_len1=10,max_len2=11)
 
     for c in output.columns:
         print(output[c])
