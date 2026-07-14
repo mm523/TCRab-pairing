@@ -14,6 +14,8 @@ All the data preprocessing scripts are in data_preprocessing.
     1. ```preprocess_vdjdb.py``` does some initial cleaning of the export
     2. ```apply_stitchr.py``` takes the output from 1. and uses stitchr (https://github.com/JamieHeather/stitchr) to create full TCR sequences
     3. ```vdj_clean_for_MI.py``` applies the final cleaning steps and extracts cdrs for all MI applications.
+    4. ```vdjdb_no_small_studies.ipynb``` removes all TCRs that come from a study with less than 3 sequences so that shuffling for MI estimation can occur within-study to reduce artefacts.
+    5. ```vdjdb_epitope_hist.ipynb``` and ```vdj_cdr3_length_hist.ipynb``` plot the underlying data distributions for QC.
 3. Tanno dataset:
     1. ```Tanno_preprocessing.ipynb``` performs pre-processing as in Mayer and Callan, 2023
     2. ```tanno_clean_for_MI.py``` applies the final cleaning steps and extracts cdrs for all MI applications.
@@ -29,24 +31,24 @@ The following scripts are in ```structure_analysis```
 4. ```interchain_pairwise_distances.ipynb``` extracts and plots all pairwise distances between residues on different chains
 5. ```threshold_analysis.ipynb``` shows the effect of choosing different thresholds on the number of detected contacts
 
-These scripts reproduce all analysis in Figs 1-3, S1 and S9-S11
+These scripts reproduce all analysis in Figs 1-3, S1 and S5-S7.
 
 The functions needed to run these scripts are in the ```functions``` folder and are called directly within each script.
 
 #### Analysis of VDJDb clustering
 
-```cluster_alpha_beta.ipynb``` reproduces all the analysis in Figs 4, S12-S13.
+```cluster_alpha_beta.ipynb``` reproduces all the analysis in Appendix A1.
 
 #### MI calculation and analysis
 
-1. ```totalMI_vdjdb.ipynb``` performs MI calculations for various subsamples from each epitope from the VDJDb dataset. Here padding for the MI calculations is added in the middle (as with IMGT numbering).
-2. ```totalMI_tanno_oneNaiveSample.ipynb``` performs MI calculations for various subsamples from the naive sample from individual A1 from Tanno et al. Here padding for the MI calculations is added in the middle (as with IMGT numbering).
-3. ```totalMI_vdjdb_changepadding.ipynb``` and ```totalMI_tanno_oneNaiveSample_changepadding.ipynb``` perform the same calculations as above, but by padding the sequences at the end instead of padding in the middle.
-4. ```totalMI_analysis.ipynb``` performs the extrapolation with the subsamples and correction of MI by shuffle for each calculated MI category. Equivalent in ```totalMI_analysis_changepadding.ipynb``` for padding at the end.
-5. ```V_to_cdr3_MI.ipynb``` plots the analyses in Figs 5-6 and S17 (with padding in the middle).
-6. ```totalMI_compare_padding.ipynb``` compares the MI results depending on the padding, as in Fig S15.
-7. ```MI_vs_gaps.ipynb``` evaluates the effects of gaps as in Fig S14
-8. ```totalMI_ots.ipynb```, ```totalMI_analysis_ots.ipynb``` and ```OTS_plot_results.ipynb``` calculate MI for OTS set and analyse the results as in Fig S16
+1. ```01_totalMI_vdjdb_within_study_shuffle.ipynb``` performs MI calculations for various subsamples from each epitope from the VDJDb dataset. Here padding for the MI calculations is added in the middle (as with IMGT numbering).
+2. ```01b_totalMI_tanno_oneNaiveSample.ipynb``` performs MI calculations for various subsamples from the naive sample from individual A1 from Tanno et al. Here padding for the MI calculations is added in the middle (as with IMGT numbering) or at the end.
+3. ```01a_totalMI_vdjdb_changepadding_within_study_shuffle.ipynb``` and ```01c_totalMI_tanno_oneNaiveSample_changepadding.ipynb``` perform the same calculations as above, but by padding the sequences at the end instead of padding in the middle.
+4. ```02_totalMI_analysis_within_study_shuffle.ipynb``` performs the extrapolation with the subsamples and correction of MI by shuffle for each calculated MI category. Equivalent in ```02a_totalMI_analysis_endpadding_within_study_shuffle.ipynb``` for padding at the end.
+5. ```V_to_cdr3_MI_norm_foldChange.ipynb``` plots the analyses in Figs 4-5.
+6. ```03b_totalMI_compare_padding.ipynb``` compares the MI results depending on the padding, as in Fig S9.
+7. ```03a_MI_vs_gaps.ipynb``` evaluates the effects of gaps as in Fig S8.
+8. ```totalMI_ots.ipynb```, ```totalMI_analysis_ots.ipynb``` and ```OTS_plot_results.ipynb``` calculate MI for OTS set and analyse the results as in Fig S10.
 
 #### Pairing algorithms
 
@@ -54,9 +56,9 @@ The functions needed to run these scripts are in the ```functions``` folder and 
 
 The functions to run the MI-IPA on the VDJDb dataset are contained in ```PairingVDJdb_MI.py```.
 
-The script ```run_MIIPA_benchmark_eps``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks in ```VDJ_MI-IPA_results``` (```*_screen.ipynb```) can load the results from the grid search and plot the results as in Fig S5.
+The script ```MIIPA_grid_search.sh``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks in ```VDJ_MI-IPA_results``` (```*_screen.ipynb```) can load the results from the grid search and plot the results as in Fig S5.
 
-```run_MIIPA_all_eps.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_MI-IPA_results/all_epitope_repeats.ipynb``` can load the results from the paring and plot the results as in Fig S18.
+```pairing_MI-IPA_all_eps.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_MI-IPA_results/all_epitope_repeats.ipynb``` can load the results from the paring and plot the results as in Fig S18.
 
 The notebook ```VDJ_MI-IPA_results/all_epitope_corr_with_MI.ipynb``` plots the correlations with MI as in Fig 9.
 
@@ -68,9 +70,9 @@ The functions to run the MI-IPA on the VDJDb dataset are contained in ```Pairing
 This code is from https://github.com/carlosgandarilla/GA-IPA, published as Gandarilla-Pérez CA, Pinilla S, Bitbol AF, Weigt M. Combining phylogeny and coevolution improves the inference of interaction partners among paralogous proteins. PLoS Comput Biol. 2023 Mar 30;19(3):e1011010. doi: 10.1371/journal.pcbi.1011010. PMID: 36996234; PMCID: PMC10089317. 
 Since the original implementation is in Julia, pyjulia was used to include the code in the pipeline. To make Julia work in Python, you need to install pyjulia: https://pyjulia.readthedocs.io/en/stable/index.html. PyJulia is already included in the environment, but you might need to run step 3 of installation. To make it work in conda, you also need the first hack of the troubleshooting guide.
 
-The script ```run_GA_benchmark_eps.sh``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks ```VDJ_GA_results/Kscreen.ipynb``` can load the results from the grid search and plot the results as in Fig S6.
+The script ```GA_grid_search.sh``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks ```VDJ_GA_results/Kscreen.ipynb``` can load the results from the grid search and plot the results as in Fig S6.
 
-```run_GA_all_eps_lev_20.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_GA_results/repeat_results.ipynb``` can load the results from the paring and plot the results as in Fig S19.
+```pairing_GA_all.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_GA_results/repeat_results.ipynb``` can load the results from the paring and plot the results as in Fig S19.
 
 The notebook ```VDJ_GA_results/GA_perf_corr.ipynb``` plots the correlations with other clustering metrics as in Fig 9.
 
@@ -78,9 +80,9 @@ The notebook ```VDJ_GA_results/GA_perf_corr.ipynb``` plots the correlations with
 
 The functions to run the GA + MI-IPA on the VDJDb dataset are contained in ```PairingVDJdb_GAandMI.py```.
 
-The script ```run_GAMI_benchmark_eps.sh``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks ```VDJ_GAMI_results/GLA_YLQ_repair_over_iterations.ipynb``` can load the results from the grid search and plot the results as in Fig S7.
+The script ```GAMI_grid_search.sh``` runs the grid search on epitopes GLC and YLQ to find the best parameters.  The notebooks ```VDJ_GAMI_results/GLA_YLQ_repair_over_iterations.ipynb``` can load the results from the grid search and plot the results as in Fig S7.
 
-```run_GAMI_all_eps.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_GAMI_results/all_epitope_repeats.ipynb``` can load the results from the paring and plot the results as in Fig S20.
+```pairing_GAMI_all_eps.sh``` can be used to run all the epitopes from the command line. The parameters can be adjusted as desired. The notebook ```VDJ_GAMI_results/all_epitope_repeats.ipynb``` can load the results from the paring and plot the results as in Fig S20.
 
 The notebook ```VDJ_MI-IPA_results/all_epitope_correlations.ipynb``` plots the correlations with other metrics as in Fig 9.
 
